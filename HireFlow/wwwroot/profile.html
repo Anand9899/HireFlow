@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireFlow - Command Center & Profile</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%234f46e5'/%3E%3Cpath d='M8 7v18M8 16h8M16 25V7h8M16 16h8' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M16 7h8M16 16h8' stroke='%2338bdf8' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/CSS/style.css?v=20260924_applyv2">
+</head>
+
+<body>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Header Navbar -->
+    <header class="navbar">
+        <div class="container navbar-container">
+            <a href="/index.html" class="logo">
+                <div class="logo-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- H Left Stem & Crossbar -->
+                        <path d="M5 4.5V19.5" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+                        <path d="M5 12H13" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+                        <!-- F Spine (White to Cyan) -->
+                        <path d="M13 19.5V4.5" stroke="url(#hfSpineDash)" stroke-width="2.6" stroke-linecap="round"/>
+                        <!-- F Top Bar (Cyan) -->
+                        <path d="M13 4.5H19.5" stroke="#38BDF8" stroke-width="2.6" stroke-linecap="round"/>
+                        <!-- Forward Flow Arrow (Cyan) -->
+                        <path d="M13 12H19.5M16.5 9.5L19.5 12L16.5 14.5" stroke="#38BDF8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- Top Energy Spark Dot -->
+                        <circle cx="19.5" cy="4.5" r="1.3" fill="#FFFFFF"/>
+                        <defs>
+                            <linearGradient id="hfSpineDash" x1="13" y1="19.5" x2="13" y2="4.5" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FFFFFF"/>
+                                <stop offset="0.6" stop-color="#FFFFFF"/>
+                                <stop offset="1" stop-color="#38BDF8"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo-name">Hire<span class="brand-accent">Flow</span><span class="brand-dot">.</span></span>
+            </a>
+
+            <div class="nav-actions">
+                <!-- Theme Toggle Button -->
+                <button type="button" class="theme-toggle-btn" id="dashThemeToggleBtn" title="Switch Theme">
+                    🌙
+                </button>
+
+                <a href="/index.html" class="btn btn-outline">
+                    ← Explore Jobs
+                </a>
+                <button type="button" class="btn btn-primary" id="dashLogoutBtn">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="dashboard-page">
+        <div class="container">
+
+            <!-- Profile Hero Summary Card -->
+            <div class="dashboard-hero-card">
+                <div class="profile-identity">
+                    <div class="profile-avatar-large" id="dashAvatar">U</div>
+                    <div class="profile-meta">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <h1 id="dashName">Loading Account...</h1>
+                            <span class="user-nav-role" id="dashRoleBadge">Candidate</span>
+                        </div>
+                        <p id="dashEmail">user@example.com</p>
+                    </div>
+                </div>
+
+                <div id="dashHeaderAction">
+                    <!-- Dynamic button: Candidate or Recruiter action -->
+                </div>
+            </div>
+
+            <!-- Dynamic Stats Counters -->
+            <div class="stats-grid" id="statsGrid">
+                <!-- Injected via JS based on Role -->
+            </div>
+
+            <!-- Dashboard Navigation Tabs -->
+            <div class="dashboard-tabs" id="dashTabs">
+                <!-- Injected via JS based on Role -->
+            </div>
+
+            <!-- Tab Content Viewport -->
+            <div id="tabContent">
+                <div class="empty-state">
+                    <div class="empty-icon">⏳</div>
+                    <h3>Loading Dashboard...</h3>
+                    <p>Fetching your account activity and latest updates.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Post Job Modal (Available on Profile for quick trigger) -->
+    <div class="modal" id="dashPostJobModal">
+        <div class="modal-content modal-content-lg">
+            <button type="button" class="modal-close" onclick="closeModal('dashPostJobModal')" aria-label="Close modal">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-header">
+                <h2>Post a New Opportunity</h2>
+                <p>Reach top verified talent on HireFlow</p>
+            </div>
+
+            <form id="dashPostJobForm" onsubmit="handleModalPostJob(event)">
+                <div class="form-group">
+                    <label for="dpJobTitle">Job Title</label>
+                    <input type="text" id="dpJobTitle" placeholder="e.g. Lead Backend Architect" maxlength="150" required>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="dpJobType">Employment Type</label>
+                        <select id="dpJobType" required>
+                            <option value="Full Time">Full Time</option>
+                            <option value="Remote">Remote</option>
+                            <option value="Part Time">Part Time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dpJobSalary">Compensation</label>
+                        <input type="text" id="dpJobSalary" placeholder="e.g. $100,000 - $140,000" maxlength="100" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dpJobLocation">Location</label>
+                    <input type="text" id="dpJobLocation" placeholder="e.g. Remote / San Francisco / Noida" maxlength="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dpJobDescription">Description & Qualifications</label>
+                    <textarea id="dpJobDescription" rows="5" placeholder="Outline the requirements, day-to-day work, and tech stack..." required></textarea>
+                </div>
+
+                <div id="dpJobMessage" class="form-message"></div>
+
+                <button type="submit" class="btn btn-primary form-submit" id="dpSubmitBtn">
+                    Publish Position 🚀
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript for Dashboard -->
+    <script>
+        "use strict";
+
+        const TOKEN_KEY = "hireflow_token";
+        const THEME_KEY = "hireflow_theme";
+        const API_BASE = "/api";
+
+        function getToken() {
+            return sessionStorage.getItem(TOKEN_KEY);
+        }
+
+        function getAuthHeaders() {
+            const token = getToken();
+            return token ? { "Authorization": `Bearer ${token}` } : {};
+        }
+
+        function showToast(message, type = "info") {
+            const container = document.getElementById("toastContainer");
+            if (!container) return;
+
+            const toast = document.createElement("div");
+            toast.className = `toast toast-${type}`;
+            const icon = type === "success" ? "✅" : (type === "error" ? "❌" : "ℹ️");
+            toast.innerHTML = `<span>${icon}</span><span>${escapeHtml(message)}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                toast.style.transform = "translateX(50px)";
+                setTimeout(() => toast.remove(), 350);
+            }, 3800);
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement("div");
+            div.textContent = str ?? "";
+            return div.innerHTML;
+        }
+
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.add("active");
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove("active");
+        }
+
+        // ==========================================
+        // THEME MANAGEMENT
+        // ==========================================
+        function initDashboardTheme() {
+            const savedTheme = localStorage.getItem(THEME_KEY);
+            const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const theme = savedTheme || (prefersDark ? "dark" : "light");
+
+            applyTheme(theme);
+
+            const toggleBtn = document.getElementById("dashThemeToggleBtn");
+            if (toggleBtn) {
+                toggleBtn.addEventListener("click", () => {
+                    const current = document.documentElement.getAttribute("data-theme") || "light";
+                    const next = current === "dark" ? "light" : "dark";
+                    applyTheme(next);
+                    showToast(`Switched to ${next === "dark" ? "Dark 🌙" : "Light ☀️"} mode`, "info");
+                });
+            }
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute("data-theme", theme);
+            localStorage.setItem(THEME_KEY, theme);
+
+            const toggleBtn = document.getElementById("dashThemeToggleBtn");
+            if (toggleBtn) {
+                toggleBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+                toggleBtn.title = theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode";
+            }
+        }
+
+        // Global State
+        let currentUser = null;
+        let myApplications = [];
+        let myJobs = [];
+        let recruiterApplications = [];
+        let activeTab = "default";
+        let candidateStatusFilter = "all";
+        let recruiterSearchQuery = "";
+        let recruiterStatusFilter = "all";
+
+        // ==========================================
+        // INITIALIZE
+        // ==========================================
+        document.addEventListener("DOMContentLoaded", async function () {
+            initDashboardTheme();
+
+            const token = getToken();
+            if (!token) {
+                window.location.replace("/index.html");
+                return;
+            }
+
+            document.getElementById("dashLogoutBtn").addEventListener("click", function () {
+                sessionStorage.removeItem(TOKEN_KEY);
+                window.location.replace("/index.html");
+            });
+
+            await loadUserProfile();
+        });
+
+        async function loadUserProfile() {
+            try {
+                const res = await fetch(`${API_BASE}/Auth/me`, {
+                    headers: { ...getAuthHeaders() }
+                });
+
+                if (res.status === 401) {
+                    sessionStorage.removeItem(TOKEN_KEY);
+                    window.location.replace("/index.html");
+                    return;
+                }
+
+                if (!res.ok) throw new Error("Could not load user profile");
+
+                currentUser = await res.json();
+                renderProfileHero();
+
+                if (currentUser.role === "Recruiter") {
+                    setupRecruiterDashboard();
+                } else {
+                    setupCandidateDashboard();
+                }
+            } catch (err) {
+                console.error(err);
+                document.getElementById("tabContent").innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <h3>Unable to load dashboard</h3>
+                        <p>${escapeHtml(err.message)}</p>
+                        <a href="/index.html" class="btn btn-primary">Return to Homepage</a>
+                    </div>
+                `;
+            }
+        }
+
+        function renderProfileHero() {
+            const name = currentUser.name || "User";
+            const email = currentUser.email || "";
+            const role = currentUser.role || "Candidate";
+
+            document.getElementById("dashName").textContent = name;
+            document.getElementById("dashEmail").textContent = email;
+            document.getElementById("dashAvatar").textContent = name.trim().charAt(0).toUpperCase() || "U";
+            
+            const roleBadge = document.getElementById("dashRoleBadge");
+            roleBadge.textContent = role;
+            if (role === "Recruiter") {
+                roleBadge.style.background = "#0891b2";
+            } else {
+                roleBadge.style.background = "#4f46e5";
+            }
+
+            const headerAction = document.getElementById("dashHeaderAction");
+            if (role === "Recruiter") {
+                headerAction.innerHTML = `
+                    <button type="button" class="btn btn-secondary btn-large" onclick="openModal('dashPostJobModal')">
+                        <span>+</span> Post a New Job
+                    </button>
+                `;
+            } else {
+                headerAction.innerHTML = `
+                    <a href="/index.html#jobs" class="btn btn-primary btn-large">
+                        🔍 Explore Opportunities
+                    </a>
+                `;
+            }
+        }
+
+        // ==========================================
+        // CANDIDATE EXPERIENCE
+        // ==========================================
+        async function setupCandidateDashboard() {
+            const tabsContainer = document.getElementById("dashTabs");
+            tabsContainer.innerHTML = `
+                <button type="button" class="dash-tab-btn active" onclick="switchCandidateTab('my-applications')">
+                    📋 My Job Applications
+                </button>
+            `;
+
+            await loadCandidateApplications();
+        }
+
+        async function loadCandidateApplications() {
+            try {
+                const res = await fetch(`${API_BASE}/Application/my-applications`, {
+                    headers: { ...getAuthHeaders() }
+                });
+
+                if (!res.ok) throw new Error("Could not load applications");
+
+                myApplications = await res.json();
+                renderCandidateStats();
+                renderCandidateApplicationsList();
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+
+        function renderCandidateStats() {
+            const total = myApplications.length;
+            const pending = myApplications.filter(a => a.status === "Pending").length;
+            const accepted = myApplications.filter(a => a.status === "Accepted").length;
+            const rejected = myApplications.filter(a => a.status === "Rejected").length;
+
+            const grid = document.getElementById("statsGrid");
+            grid.innerHTML = `
+                <div class="stat-box" onclick="filterCandidateByStatus('all')" style="cursor: pointer;">
+                    <div class="stat-icon blue">💼</div>
+                    <div class="stat-info">
+                        <span>Total Applied</span>
+                        <h3>${total}</h3>
+                    </div>
+                </div>
+                <div class="stat-box" onclick="filterCandidateByStatus('Pending')" style="cursor: pointer;">
+                    <div class="stat-icon amber">⏱️</div>
+                    <div class="stat-info">
+                        <span>Pending Review</span>
+                        <h3>${pending}</h3>
+                    </div>
+                </div>
+                <div class="stat-box" onclick="filterCandidateByStatus('Accepted')" style="cursor: pointer;">
+                    <div class="stat-icon green">🎉</div>
+                    <div class="stat-info">
+                        <span>Accepted Offers</span>
+                        <h3>${accepted}</h3>
+                    </div>
+                </div>
+                <div class="stat-box" onclick="filterCandidateByStatus('Rejected')" style="cursor: pointer;">
+                    <div class="stat-icon red">❌</div>
+                    <div class="stat-info">
+                        <span>Declined</span>
+                        <h3>${rejected}</h3>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterCandidateByStatus(status) {
+            candidateStatusFilter = status;
+            renderCandidateApplicationsList();
+        }
+
+        function renderCandidateApplicationsList() {
+            const content = document.getElementById("tabContent");
+            if (!myApplications || myApplications.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📄</div>
+                        <h3>No applications submitted yet</h3>
+                        <p>You haven't applied for any positions yet. Explore open roles and submit direct pitches to hiring teams!</p>
+                        <a href="/index.html#jobs" class="btn btn-primary">Find Jobs Now →</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const filtered = candidateStatusFilter === "all"
+                ? myApplications
+                : myApplications.filter(a => (a.status || "").toLowerCase() === candidateStatusFilter.toLowerCase());
+
+            const total = myApplications.length;
+            const pending = myApplications.filter(a => a.status === "Pending").length;
+            const accepted = myApplications.filter(a => a.status === "Accepted").length;
+            const rejected = myApplications.filter(a => a.status === "Rejected").length;
+
+            const filterBar = `
+                <div style="display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;">
+                    <button type="button" class="filter-pill ${candidateStatusFilter === 'all' ? 'active' : ''}" onclick="filterCandidateByStatus('all')">
+                        All Applications (${total})
+                    </button>
+                    <button type="button" class="filter-pill ${candidateStatusFilter === 'Pending' ? 'active' : ''}" onclick="filterCandidateByStatus('Pending')">
+                        ⏱️ In Review (${pending})
+                    </button>
+                    <button type="button" class="filter-pill ${candidateStatusFilter === 'Accepted' ? 'active' : ''}" onclick="filterCandidateByStatus('Accepted')">
+                        🎉 Accepted (${accepted})
+                    </button>
+                    <button type="button" class="filter-pill ${candidateStatusFilter === 'Rejected' ? 'active' : ''}" onclick="filterCandidateByStatus('Rejected')">
+                        ❌ Declined (${rejected})
+                    </button>
+                </div>
+            `;
+
+            if (filtered.length === 0) {
+                content.innerHTML = `
+                    ${filterBar}
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h3>No applications in this category</h3>
+                        <p>Switch back to 'All Applications' to see all your submitted applications.</p>
+                        <button type="button" class="btn btn-outline" onclick="filterCandidateByStatus('all')">Show All</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const cardsHtml = filtered.map(app => {
+                const status = app.status || "Pending";
+                const statusClass = status.toLowerCase();
+                const appliedDate = new Date(app.appliedAt).toLocaleDateString("en-US", {
+                    month: "short", day: "numeric", year: "numeric"
+                });
+
+                // Calculate Stepper State
+                let progressWidth = "50%";
+                let step2Class = "active";
+                let step2Icon = "⏱️";
+                let step3Class = "";
+                let step3Icon = "3";
+                let step3Label = "3. Decision Pending";
+
+                if (status === "Accepted") {
+                    progressWidth = "100%";
+                    step2Class = "completed";
+                    step2Icon = "✓";
+                    step3Class = "completed";
+                    step3Icon = "🎉";
+                    step3Label = "3. Accepted!";
+                } else if (status === "Rejected") {
+                    progressWidth = "100%";
+                    step2Class = "completed";
+                    step2Icon = "✓";
+                    step3Class = "rejected";
+                    step3Icon = "✕";
+                    step3Label = "3. Not Selected";
+                }
+
+                return `
+                    <div class="dash-card">
+                        <div class="dash-card-header">
+                            <div>
+                                <h3 class="dash-card-title">${escapeHtml(app.jobTitle)}</h3>
+                                <div class="dash-card-meta">
+                                    <span>📅 Submitted on ${appliedDate}</span>
+                                    <span>🆔 Reference #${app.id}</span>
+                                </div>
+                            </div>
+                            <span class="status-pill ${statusClass}">
+                                ${status === 'Accepted' ? '🎉' : (status === 'Rejected' ? '❌' : '⏱️')}
+                                ${escapeHtml(status)}
+                            </span>
+                        </div>
+
+                        <!-- Visual Application Stepper -->
+                        <div class="app-stepper">
+                            <div class="stepper-line-bg">
+                                <div class="stepper-line-fill" style="width: ${progressWidth};"></div>
+                            </div>
+                            <div class="stepper-step completed">
+                                <div class="stepper-circle">✓</div>
+                                <span class="stepper-label">1. Applied (${appliedDate})</span>
+                            </div>
+                            <div class="stepper-step ${step2Class}">
+                                <div class="stepper-circle">${step2Icon}</div>
+                                <span class="stepper-label">2. Recruiter Review</span>
+                            </div>
+                            <div class="stepper-step ${step3Class}">
+                                <div class="stepper-circle">${step3Icon}</div>
+                                <span class="stepper-label">${step3Label}</span>
+                            </div>
+                        </div>
+
+                        ${app.resume || app.higherQualification ? `
+                            <div style="background: rgba(99, 102, 241, 0.05); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 16px; margin: 12px 0; font-size: 13px; display: flex; gap: 14px; flex-wrap: wrap; justify-content: space-between;">
+                                <span>📄 <strong>Attached Resume:</strong> <span style="color: var(--primary-light); font-weight: 600;">${escapeHtml(app.resume || 'None')}</span></span>
+                                ${app.currentLocation ? `<span>📍 <strong>Location:</strong> ${escapeHtml(app.currentLocation)}</span>` : ''}
+                                ${app.higherQualification ? `<span>🎓 <strong>Qualification:</strong> ${escapeHtml(app.higherQualification)}</span>` : ''}
+                            </div>
+                        ` : ''}
+
+                        <div class="cover-letter-box">
+                            <strong>Your Cover Letter / Pitch:</strong>
+                            <p style="margin-top: 6px; white-space: pre-line;">${escapeHtml(app.coverLetter || "No pitch attached.")}</p>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            content.innerHTML = filterBar + cardsHtml;
+        }
+
+        // ==========================================
+        // RECRUITER EXPERIENCE
+        // ==========================================
+        async function setupRecruiterDashboard() {
+            const tabsContainer = document.getElementById("dashTabs");
+            tabsContainer.innerHTML = `
+                <button type="button" class="dash-tab-btn active" id="tabBtnJobs" onclick="switchRecruiterTab('jobs')">
+                    🏢 My Job Vacancies
+                </button>
+                <button type="button" class="dash-tab-btn" id="tabBtnApplicants" onclick="switchRecruiterTab('applicants')">
+                    👥 Candidate Review Hub
+                </button>
+                <button type="button" class="dash-tab-btn" id="tabBtnNewJob" onclick="switchRecruiterTab('new-job')">
+                    ✨ Post New Position
+                </button>
+            `;
+
+            await loadRecruiterData();
+        }
+
+        async function loadRecruiterData() {
+            try {
+                const [jobsRes, appsRes] = await Promise.all([
+                    fetch(`${API_BASE}/Job/my-jobs`, { headers: { ...getAuthHeaders() } }),
+                    fetch(`${API_BASE}/Application/recruiter-applications`, { headers: { ...getAuthHeaders() } })
+                ]);
+
+                if (jobsRes.ok) myJobs = await jobsRes.json();
+                if (appsRes.ok) recruiterApplications = await appsRes.json();
+
+                renderRecruiterStats();
+                switchRecruiterTab(activeTab === "default" ? "jobs" : activeTab);
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+
+        function renderRecruiterStats() {
+            const totalJobs = myJobs.length;
+            const activeJobs = myJobs.filter(j => j.isActive).length;
+            const totalApps = recruiterApplications.length;
+            const pendingApps = recruiterApplications.filter(a => a.status === "Pending").length;
+
+            const grid = document.getElementById("statsGrid");
+            grid.innerHTML = `
+                <div class="stat-box" onclick="switchRecruiterTab('jobs')" style="cursor: pointer;">
+                    <div class="stat-icon blue">💼</div>
+                    <div class="stat-info">
+                        <span>Total Jobs Posted</span>
+                        <h3>${totalJobs}</h3>
+                    </div>
+                </div>
+                <div class="stat-box" onclick="switchRecruiterTab('jobs')" style="cursor: pointer;">
+                    <div class="stat-icon green">🟢</div>
+                    <div class="stat-info">
+                        <span>Active Openings</span>
+                        <h3>${activeJobs}</h3>
+                    </div>
+                </div>
+                <div class="stat-box" onclick="switchRecruiterTab('applicants')" style="cursor: pointer;">
+                    <div class="stat-icon amber">👥</div>
+                    <div class="stat-info">
+                        <span>Total Applicants</span>
+                        <h3>${totalApps}</h3>
+                    </div>
+                </div>
+                <div class="stat-box" onclick="switchRecruiterTab('applicants')" style="cursor: pointer;">
+                    <div class="stat-icon red">⏳</div>
+                    <div class="stat-info">
+                        <span>Awaiting Review</span>
+                        <h3>${pendingApps}</h3>
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchRecruiterTab(tab) {
+            activeTab = tab;
+            document.querySelectorAll(".dash-tab-btn").forEach(b => b.classList.remove("active"));
+            
+            if (tab === "jobs") {
+                document.getElementById("tabBtnJobs")?.classList.add("active");
+                renderRecruiterJobsList();
+            } else if (tab === "applicants") {
+                document.getElementById("tabBtnApplicants")?.classList.add("active");
+                renderRecruiterApplicantsList();
+            } else if (tab === "new-job") {
+                document.getElementById("tabBtnNewJob")?.classList.add("active");
+                renderRecruiterNewJobForm();
+            }
+        }
+
+        function renderRecruiterJobsList() {
+            const content = document.getElementById("tabContent");
+            if (!myJobs || myJobs.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">💼</div>
+                        <h3>No jobs posted yet</h3>
+                        <p>Publish your first job vacancy to attract top tech candidates from HireFlow.</p>
+                        <button type="button" class="btn btn-primary" onclick="switchRecruiterTab('new-job')">+ Post Your First Job</button>
+                    </div>
+                `;
+                return;
+            }
+
+            content.innerHTML = myJobs.map(job => {
+                const createdDate = new Date(job.createdAt).toLocaleDateString("en-US", {
+                    month: "short", day: "numeric", year: "numeric"
+                });
+
+                return `
+                    <div class="dash-card">
+                        <div class="dash-card-header">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                                    <h3 class="dash-card-title">${escapeHtml(job.title)}</h3>
+                                    <span class="job-badge ${job.isActive ? 'remote' : ''}">
+                                        ${job.isActive ? '🟢 Active' : '⚪ Closed'}
+                                    </span>
+                                </div>
+                                <div class="dash-card-meta">
+                                    <span>📍 ${escapeHtml(job.location)}</span>
+                                    <span>💼 ${escapeHtml(job.jobType)}</span>
+                                    <span>💰 ${escapeHtml(job.salary)}</span>
+                                    <span>👥 ${job.applicantsCount || 0} Candidates</span>
+                                    <span>📅 Posted ${createdDate}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px; line-height: 1.6;">
+                            ${escapeHtml(job.description)}
+                        </p>
+
+                        <div class="dash-actions-row">
+                            <button type="button" class="btn btn-outline btn-sm" onclick="toggleJobStatus(${job.id}, ${!job.isActive})">
+                                ${job.isActive ? 'Close Position' : 'Reactivate Position'}
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="filterApplicantsForJob(${job.id})">
+                                Review Applicants (${job.applicantsCount || 0}) →
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteJob(${job.id})">
+                                Delete Job
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function filterApplicantsForJob(jobId) {
+            switchRecruiterTab("applicants");
+            const select = document.getElementById("applicantJobFilter");
+            if (select) {
+                select.value = String(jobId);
+                filterApplicantCards();
+            }
+        }
+
+        function renderRecruiterApplicantsList() {
+            const content = document.getElementById("tabContent");
+            if (!recruiterApplications || recruiterApplications.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">👥</div>
+                        <h3>No candidates have applied yet</h3>
+                        <p>As soon as candidates apply for your open jobs, their profiles and cover letters will appear here in real time.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let options = `<option value="all">All Jobs (${recruiterApplications.length})</option>`;
+            myJobs.forEach(j => {
+                options += `<option value="${j.id}">${escapeHtml(j.title)}</option>`;
+            });
+
+            content.innerHTML = `
+                <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 14px;">
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                        <div style="flex: 1; min-width: 240px; position: relative;">
+                            <input type="text" id="recruiterSearchInput" placeholder="🔍 Search candidates by name, email, or job..." 
+                                style="width: 100%; padding: 10px 16px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg-input); color: var(--text-primary);"
+                                oninput="handleRecruiterSearch(this.value)">
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <label style="font-weight: 700; font-size: 13px; color: var(--text-secondary);">Job:</label>
+                            <select id="applicantJobFilter" onchange="filterApplicantCards()" 
+                                style="padding: 10px 16px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg-input); color: var(--text-primary); font-weight: 600;">
+                                ${options}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" class="filter-pill active" id="recPillAll" onclick="setRecruiterStatusFilter('all')">All Applicants</button>
+                        <button type="button" class="filter-pill" id="recPillPending" onclick="setRecruiterStatusFilter('Pending')">⏱️ Awaiting Review</button>
+                        <button type="button" class="filter-pill" id="recPillAccepted" onclick="setRecruiterStatusFilter('Accepted')">✅ Shortlisted / Accepted</button>
+                        <button type="button" class="filter-pill" id="recPillRejected" onclick="setRecruiterStatusFilter('Rejected')">❌ Declined</button>
+                    </div>
+                </div>
+
+                <div id="applicantsCardsList"></div>
+            `;
+
+            filterApplicantCards();
+        }
+
+        function handleRecruiterSearch(val) {
+            recruiterSearchQuery = val.toLowerCase().trim();
+            filterApplicantCards();
+        }
+
+        function setRecruiterStatusFilter(status) {
+            recruiterStatusFilter = status;
+            ["All", "Pending", "Accepted", "Rejected"].forEach(s => {
+                const el = document.getElementById(`recPill${s}`);
+                if (el) el.classList.toggle("active", s.toLowerCase() === status.toLowerCase());
+            });
+            filterApplicantCards();
+        }
+
+        function filterApplicantCards() {
+            const container = document.getElementById("applicantsCardsList");
+            if (!container) return;
+
+            const filterVal = document.getElementById("applicantJobFilter")?.value || "all";
+
+            let filtered = recruiterApplications.filter(app => {
+                // Job filter
+                if (filterVal !== "all" && String(app.jobId) !== filterVal) {
+                    return false;
+                }
+
+                // Status filter
+                if (recruiterStatusFilter !== "all" && (app.status || "").toLowerCase() !== recruiterStatusFilter.toLowerCase()) {
+                    return false;
+                }
+
+                // Search query
+                if (recruiterSearchQuery) {
+                    const name = (app.candidateName || "").toLowerCase();
+                    const email = (app.candidateEmail || "").toLowerCase();
+                    const job = (app.jobTitle || "").toLowerCase();
+                    if (!name.includes(recruiterSearchQuery) && !email.includes(recruiterSearchQuery) && !job.includes(recruiterSearchQuery)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h3>No matching candidate records</h3>
+                        <p>Try adjusting your search keywords or switching filters to "All Applicants".</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(app => {
+                const status = app.status || "Pending";
+                const statusClass = status.toLowerCase();
+                const appliedDate = new Date(app.appliedAt).toLocaleDateString("en-US", {
+                    month: "short", day: "numeric", year: "numeric"
+                });
+
+                return `
+                    <div class="dash-card">
+                        <div class="dash-card-header">
+                            <div>
+                                <h3 class="dash-card-title">${escapeHtml(app.candidateName)}</h3>
+                                <div class="dash-card-meta">
+                                    <span>🎯 Position: <strong>${escapeHtml(app.jobTitle)}</strong></span>
+                                    <span>📧 <a href="mailto:${escapeHtml(app.candidateEmail)}" style="color: var(--primary-light); font-weight: 600;">${escapeHtml(app.candidateEmail)}</a></span>
+                                    <span>📅 Submitted ${appliedDate}</span>
+                                </div>
+                            </div>
+                            <span class="status-pill ${statusClass}" id="badge-app-${app.id}">
+                                ${status === 'Accepted' ? '✅' : (status === 'Rejected' ? '❌' : '⏱️')}
+                                ${escapeHtml(status)}
+                            </span>
+                        </div>
+
+                        <!-- Structured Application Details Stored in Database -->
+                        ${(app.currentJob || app.profileDomain || app.currentLocation || app.higherQualification || app.marks10th || app.resume) ? `
+                            <div style="background: rgba(99, 102, 241, 0.05); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 14px; font-size: 13px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+                                <div><strong style="color: var(--text-muted);">Role & Domain:</strong> <span style="font-weight: 600;">${escapeHtml(app.profileDomain || 'N/A')}${app.currentJob ? ' • ' + escapeHtml(app.currentJob) : ''}</span></div>
+                                <div><strong style="color: var(--text-muted);">Current Location:</strong> <span style="font-weight: 600;">📍 ${escapeHtml(app.currentLocation || 'Not specified')}</span></div>
+                                <div><strong style="color: var(--text-muted);">Mobile:</strong> <span style="font-weight: 600;">📞 ${escapeHtml(app.mobile || 'N/A')}</span></div>
+                                <div><strong style="color: var(--text-muted);">Gender:</strong> <span style="font-weight: 600;">👤 ${escapeHtml(app.gender || 'N/A')}</span></div>
+                                <div><strong style="color: var(--text-muted);">Higher Qualification:</strong> <span style="font-weight: 600;">🎓 ${escapeHtml(app.higherQualification || 'N/A')}</span></div>
+                                <div><strong style="color: var(--text-muted);">Academic Record:</strong> <span style="font-weight: 600;">10th: ${app.marks10th != null ? app.marks10th + '%' : 'N/A'} | 12th: ${app.marks12th != null ? app.marks12th + '%' : 'N/A'} | UG: ${app.marksUG != null ? app.marksUG + '%' : 'N/A'}${app.marksPG != null ? ' | PG: ' + app.marksPG + '%' : ''}</span></div>
+                                <div style="grid-column: 1 / -1;"><strong style="color: var(--text-muted);">Resume File:</strong> <span style="font-weight: 700; color: var(--primary-light);">📄 ${escapeHtml(app.resume || 'Not attached')}</span></div>
+                            </div>
+                        ` : ''}
+
+                        <div class="cover-letter-box">
+                            <strong>Candidate Pitch / Motivation:</strong>
+                            <p style="margin-top: 6px; white-space: pre-line;">${escapeHtml(app.coverLetter || "No pitch provided.")}</p>
+                        </div>
+
+                        <div class="dash-actions-row">
+                            <button type="button" class="btn btn-success btn-sm" onclick="updateApplicationDecision(${app.id}, 'Accepted')">
+                                ✅ Shortlist / Accept
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="updateApplicationDecision(${app.id}, 'Rejected')">
+                                ❌ Decline Candidate
+                            </button>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="updateApplicationDecision(${app.id}, 'Pending')">
+                                ⏱️ Mark In-Review
+                            </button>
+                            <a href="mailto:${escapeHtml(app.candidateEmail)}?subject=Regarding your application for ${encodeURIComponent(app.jobTitle)}" class="btn btn-secondary btn-sm" style="margin-left: auto;">
+                                ✉️ Email Candidate
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function renderRecruiterNewJobForm() {
+            const content = document.getElementById("tabContent");
+            content.innerHTML = `
+                <div class="dash-card" style="max-width: 740px; margin: 0 auto;">
+                    <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 6px;">Post a New Opportunity</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">Publish this position to immediately show up on the HireFlow candidate discovery page.</p>
+
+                    <form id="inlinePostJobForm" onsubmit="handleInlinePostJob(event)">
+                        <div class="form-group">
+                            <label>Job Title</label>
+                            <input type="text" id="injTitle" placeholder="e.g. Senior Frontend Engineer" required>
+                        </div>
+
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label>Employment Type</label>
+                                <select id="injType" required>
+                                    <option value="Full Time">Full Time</option>
+                                    <option value="Remote">Remote</option>
+                                    <option value="Part Time">Part Time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Internship">Internship</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Salary / Compensation</label>
+                                <input type="text" id="injSalary" placeholder="e.g. $90,000 - $125,000" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="injLocation" placeholder="e.g. Remote / New Delhi / San Francisco" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Job Description & Responsibilities</label>
+                            <textarea id="injDescription" rows="5" placeholder="Specify key responsibilities, requirements, and benefits..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary form-submit" id="injSubmitBtn">
+                            Publish Job Listing Now ✨
+                        </button>
+                    </form>
+                </div>
+            `;
+        }
+
+        async function handleInlinePostJob(e) {
+            e.preventDefault();
+            const btn = document.getElementById("injSubmitBtn");
+            btn.disabled = true;
+            btn.textContent = "Publishing Position...";
+
+            const payload = {
+                title: document.getElementById("injTitle").value.trim(),
+                jobType: document.getElementById("injType").value.trim(),
+                salary: document.getElementById("injSalary").value.trim(),
+                location: document.getElementById("injLocation").value.trim(),
+                description: document.getElementById("injDescription").value.trim()
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/Job`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...getAuthHeaders()
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    throw new Error(data.message || "Failed to post job");
+                }
+
+                showToast("Job published successfully!", "success");
+                await loadRecruiterData();
+                switchRecruiterTab("jobs");
+            } catch (err) {
+                showToast(err.message, "error");
+                btn.disabled = false;
+                btn.textContent = "Publish Job Listing Now ✨";
+            }
+        }
+
+        async function handleModalPostJob(e) {
+            e.preventDefault();
+            const btn = document.getElementById("dpSubmitBtn");
+            btn.disabled = true;
+            btn.textContent = "Publishing Position...";
+
+            const payload = {
+                title: document.getElementById("dpJobTitle").value.trim(),
+                jobType: document.getElementById("dpJobType").value.trim(),
+                salary: document.getElementById("dpJobSalary").value.trim(),
+                location: document.getElementById("dpJobLocation").value.trim(),
+                description: document.getElementById("dpJobDescription").value.trim()
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/Job`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...getAuthHeaders()
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    throw new Error(data.message || "Failed to post job");
+                }
+
+                closeModal("dashPostJobModal");
+                e.target.reset();
+                showToast("Job published successfully!", "success");
+                await loadRecruiterData();
+                switchRecruiterTab("jobs");
+            } catch (err) {
+                showToast(err.message, "error");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Publish Position 🚀";
+            }
+        }
+
+        // ==========================================
+        // DECISION & JOB ACTIONS
+        // ==========================================
+        async function updateApplicationDecision(applicationId, newStatus) {
+            try {
+                const res = await fetch(`${API_BASE}/Application/${applicationId}/status`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...getAuthHeaders()
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (!res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    throw new Error(data.message || "Could not update status");
+                }
+
+                showToast(`Application #${applicationId} updated to: ${newStatus}!`, "success");
+
+                // Update local state
+                const app = recruiterApplications.find(a => a.id === applicationId);
+                if (app) app.status = newStatus;
+
+                renderRecruiterStats();
+                filterApplicantCards();
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+
+        async function toggleJobStatus(jobId, newActiveState) {
+            const job = myJobs.find(j => j.id === jobId);
+            if (!job) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/Job/${jobId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...getAuthHeaders()
+                    },
+                    body: JSON.stringify({
+                        title: job.title,
+                        description: job.description,
+                        location: job.location,
+                        jobType: job.jobType,
+                        salary: job.salary,
+                        isActive: newActiveState
+                    })
+                });
+
+                if (!res.ok) throw new Error("Could not update job status");
+
+                showToast(`Position ${newActiveState ? 'reactivated' : 'closed'} successfully.`, "success");
+                job.isActive = newActiveState;
+                renderRecruiterStats();
+                renderRecruiterJobsList();
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+
+        async function deleteJob(jobId) {
+            if (!confirm("Are you sure you want to permanently delete this job listing?")) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/Job/${jobId}`, {
+                    method: "DELETE",
+                    headers: { ...getAuthHeaders() }
+                });
+
+                if (!res.ok) throw new Error("Could not delete job");
+
+                showToast("Job deleted successfully.", "success");
+                myJobs = myJobs.filter(j => j.id !== jobId);
+                recruiterApplications = recruiterApplications.filter(a => a.jobId !== jobId);
+                renderRecruiterStats();
+                renderRecruiterJobsList();
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+    </script>
+</body>
+</html>

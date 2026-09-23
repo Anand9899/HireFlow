@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireFlow - Next-Generation Career & Recruitment Platform</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%234f46e5'/%3E%3Cpath d='M8 7v18M8 16h8M16 25V7h8M16 16h8' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M16 7h8M16 16h8' stroke='%2338bdf8' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/CSS/style.css?v=20260924_location_v4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         FLOATING TOAST NOTIFICATION CONTAINER
+    ====================================================== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+    <header class="navbar">
+        <div class="container navbar-container">
+            <!-- Logo -->
+            <a href="#home" class="logo">
+                <div class="logo-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- H Left Stem & Crossbar -->
+                        <path d="M5 4.5V19.5" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+                        <path d="M5 12H13" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+                        <!-- F Spine (White to Cyan) -->
+                        <path d="M13 19.5V4.5" stroke="url(#hfSpineNav)" stroke-width="2.6" stroke-linecap="round"/>
+                        <!-- F Top Bar (Cyan) -->
+                        <path d="M13 4.5H19.5" stroke="#38BDF8" stroke-width="2.6" stroke-linecap="round"/>
+                        <!-- Forward Flow Arrow (Cyan) -->
+                        <path d="M13 12H19.5M16.5 9.5L19.5 12L16.5 14.5" stroke="#38BDF8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- Top Energy Spark Dot -->
+                        <circle cx="19.5" cy="4.5" r="1.3" fill="#FFFFFF"/>
+                        <defs>
+                            <linearGradient id="hfSpineNav" x1="13" y1="19.5" x2="13" y2="4.5" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FFFFFF"/>
+                                <stop offset="0.6" stop-color="#FFFFFF"/>
+                                <stop offset="1" stop-color="#38BDF8"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="logo-name">Hire<span class="brand-accent">Flow</span><span class="brand-dot">.</span></span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu">
+                <a href="#home" class="active">Home</a>
+                <a href="#categories">Categories</a>
+                <a href="#jobs">Explore Jobs</a>
+                <a href="#features">Why HireFlow</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <!-- Authentication, Theme & User Actions -->
+            <div class="nav-actions" id="navActions">
+                <!-- Theme Toggle Button (Light / Dark) -->
+                <button type="button" class="theme-toggle-btn" id="themeToggleBtn" title="Switch Theme">
+                    🌙
+                </button>
+
+                <!-- Logged Out State -->
+                <button type="button" class="btn btn-outline" id="loginBtn">Sign In</button>
+
+                <!-- Recruiter Quick Action -->
+                <button type="button" class="btn btn-secondary hidden" id="postJobNavBtn">
+                    <span>+</span> Post a Job
+                </button>
+
+                <!-- Logged In State Profile Badge -->
+                <a href="/profile.html" class="user-nav-badge hidden" id="userBadgeLink">
+                    <div class="user-nav-avatar" id="navUserAvatar">U</div>
+                    <span id="navUserName">My Profile</span>
+                    <span class="user-nav-role" id="navUserRole">Candidate</span>
+                </a>
+
+                <button type="button" class="btn btn-outline btn-sm hidden" id="logoutBtn">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+    <main>
+        <!-- =================================================
+             HERO SECTION
+        ================================================== -->
+        <section class="hero" id="home">
+            <div class="container hero-container">
+                <!-- Left Content -->
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span>🚀</span> Over 2,400+ new verified positions added this week
+                    </div>
+                    <h1>
+                        Connecting Ambition With <span>Global Opportunity</span>
+                    </h1>
+                    <p>
+                        Discover curated tech, design, and product roles from high-growth startups to Fortune 500 leaders. Apply with confidence in seconds.
+                    </p>
+                    <div class="hero-buttons">
+                        <button type="button" class="btn btn-primary btn-large" id="heroJobsBtn">
+                            🔍 Explore All Jobs
+                        </button>
+                        <button type="button" class="btn btn-outline btn-large" id="heroRegisterBtn">
+                            Join HireFlow Free
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Visual Floating Stats -->
+                <div class="hero-visual">
+                    <div class="hero-glow-sphere"></div>
+                    <div class="hero-main-card">
+                        <div class="hero-card-stat">
+                            <div class="hero-card-icon">💼</div>
+                            <div>
+                                <h3 style="font-size: 28px; font-weight: 800;">10,000+</h3>
+                                <p style="font-size: 14px; color: var(--text-muted); margin: 0;">Active Tech & Remote Jobs</p>
+                            </div>
+                        </div>
+                        <div style="height: 1px; background: var(--border); margin-bottom: 22px;"></div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <span style="font-size: 11px; color: var(--text-light); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Avg. Hiring Time</span>
+                                <h4 style="font-size: 19px; color: #10b981; font-weight: 800; margin-top: 2px;">⚡ 12 Days</h4>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 11px; color: var(--text-light); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Candidate Score</span>
+                                <h4 style="font-size: 19px; color: var(--primary-light); font-weight: 800; margin-top: 2px;">⭐ 4.9 / 5.0</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Badge Top -->
+                    <div class="hero-floating-card hero-floating-top">
+                        <span style="font-size: 24px;">🏢</span>
+                        <div>
+                            <strong style="font-size: 15px; color: var(--text-primary); display: block;">Top Tier Companies</strong>
+                            <span style="font-size: 12px; color: var(--text-muted);">Direct recruiter review</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating Badge Bottom -->
+                    <div class="hero-floating-card hero-floating-bottom">
+                        <span style="font-size: 24px;">🎯</span>
+                        <div>
+                            <strong style="font-size: 15px; color: var(--text-primary); display: block;">Real-Time Status</strong>
+                            <span style="font-size: 12px; color: #10b981; font-weight: 700;">Live decision updates</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================
+             SEARCH & FILTER BAR
+        ================================================== -->
+        <section class="search-section">
+            <div class="container">
+                <div class="search-box">
+                    <div class="search-input-box">
+                        <span>🔍</span>
+                        <input type="text" id="searchInput" placeholder="Job title, tech stack (e.g. React, C#, Python)...">
+                    </div>
+                    <div class="search-input-box">
+                        <span>📍</span>
+                        <input type="text" id="locationInput" placeholder="Location or 'Remote'...">
+                    </div>
+                    <button type="button" class="btn btn-primary search-button" id="searchBtn">
+                        Search Jobs
+                    </button>
+                </div>
+
+                <!-- Trending Search Tags -->
+                <div class="trending-tags-row">
+                    <span style="font-weight: 700; color: var(--text-primary);">🔥 Trending:</span>
+                    <span class="trending-tag" onclick="applyQuickTag('Remote')">🌐 Remote</span>
+                    <span class="trending-tag" onclick="applyQuickTag('Full Stack')">💻 Full Stack</span>
+                    <span class="trending-tag" onclick="applyQuickTag('React')">⚛️ React</span>
+                    <span class="trending-tag" onclick="applyQuickTag('Python')">🐍 Python</span>
+                    <span class="trending-tag" onclick="applyQuickTag('Backend')">⚙️ Backend</span>
+                    <span class="trending-tag" onclick="applyQuickTag('DevOps')">☁️ DevOps</span>
+                </div>
+
+                <!-- Job Type Filter Pills -->
+                <div class="filter-pills-row" id="filterPillsRow">
+                    <button type="button" class="filter-pill active" data-type="all">All Roles</button>
+                    <button type="button" class="filter-pill" data-type="Full Time">💼 Full Time</button>
+                    <button type="button" class="filter-pill" data-type="Remote">🌐 Remote</button>
+                    <button type="button" class="filter-pill" data-type="Part Time">⏱️ Part Time</button>
+                    <button type="button" class="filter-pill" data-type="Contract">📝 Contract</button>
+                    <button type="button" class="filter-pill" data-type="Internship">🎓 Internship</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================
+             TRUSTED BY LOGOS
+        ================================================== -->
+        <section style="padding: 20px 0 50px; text-align: center;">
+            <div class="container">
+                <p style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-light); margin-bottom: 24px;">
+                    Trusted by developers & hiring managers from leading teams
+                </p>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; opacity: 0.75; font-size: 20px; font-weight: 800; color: var(--text-secondary);">
+                    <span>⚡ Stripe</span>
+                    <span>🌐 Vercel</span>
+                    <span>📦 GitHub</span>
+                    <span>☁️ AWS</span>
+                    <span>🚀 Linear</span>
+                    <span>🔮 OpenAI</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================
+             POPULAR CATEGORIES
+        ================================================== -->
+        <section style="padding: 40px 0 60px;" id="categories">
+            <div class="container">
+                <div class="section-header" style="margin-bottom: 28px;">
+                    <div>
+                        <span class="section-label">Browse by Discipline</span>
+                        <h2>Popular Career Paths</h2>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px;">
+                    <div class="feature-card" style="padding: 24px; cursor: pointer;" onclick="applyQuickTag('Developer')">
+                        <div class="feature-icon" style="margin-bottom: 12px; font-size: 24px;">💻</div>
+                        <h4 style="font-size: 17px; font-weight: 800;">Software Engineering</h4>
+                        <span style="font-size: 13px; color: var(--text-muted);">Frontend, Backend, Mobile</span>
+                    </div>
+
+                    <div class="feature-card" style="padding: 24px; cursor: pointer;" onclick="applyQuickTag('Cloud')">
+                        <div class="feature-icon" style="margin-bottom: 12px; font-size: 24px;">☁️</div>
+                        <h4 style="font-size: 17px; font-weight: 800;">Cloud & DevOps</h4>
+                        <span style="font-size: 13px; color: var(--text-muted);">Kubernetes, CI/CD, AWS</span>
+                    </div>
+
+                    <div class="feature-card" style="padding: 24px; cursor: pointer;" onclick="applyQuickTag('Design')">
+                        <div class="feature-icon" style="margin-bottom: 12px; font-size: 24px;">🎨</div>
+                        <h4 style="font-size: 17px; font-weight: 800;">Product & Design</h4>
+                        <span style="font-size: 13px; color: var(--text-muted);">UI/UX, Systems, Research</span>
+                    </div>
+
+                    <div class="feature-card" style="padding: 24px; cursor: pointer;" onclick="applyQuickTag('Data')">
+                        <div class="feature-icon" style="margin-bottom: 12px; font-size: 24px;">📊</div>
+                        <h4 style="font-size: 17px; font-weight: 800;">AI & Data Science</h4>
+                        <span style="font-size: 13px; color: var(--text-muted);">LLMs, ML, BigQuery</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================
+             JOBS SECTION
+        ================================================== -->
+        <section class="jobs-section" id="jobs">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <span class="section-label">Open Opportunities</span>
+                        <h2>Featured Positions <span class="section-count-badge" id="jobsHeadingCount">50+</span></h2>
+                        <p>Explore verified openings with transparent compensation and remote flexibility.</p>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" class="btn btn-outline" id="viewSavedJobsBtn">
+                            ❤️ Saved Jobs (<span id="savedJobsCount">0</span>)
+                        </button>
+                        <button type="button" class="btn btn-outline" id="viewAllJobsBtn">
+                            Refresh Listings ↺
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Jobs Dynamic Grid -->
+                <div id="jobsContainer" class="jobs-container">
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-icon">⏳</div>
+                        <h3>Loading opportunities...</h3>
+                        <p>Fetching the latest openings from HireFlow.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================
+             WHY HIREFLOW SECTION
+        ================================================== -->
+        <section class="features-section" id="features">
+            <div class="container">
+                <div class="section-title">
+                    <span class="section-label">Built For Speed</span>
+                    <h2>Everything You Need to Succeed</h2>
+                    <p>Whether you're looking for your next career jump or expanding your engineering team, HireFlow streamlines the entire flow.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Smart Job Discovery</h3>
+                        <p>Search across verified companies, filter by salary bands and flexible remote locations with instant search indexing.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Direct Pitch Applications</h3>
+                        <p>Include customized pitches directly to hiring managers with zero middleman delays, and track review status in real-time.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Recruiter Command Center</h3>
+                        <p>Post vacancies in seconds, evaluate applicant cover letters, and make fast hiring decisions with one unified dashboard.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================
+             ABOUT SECTION
+        ================================================== -->
+        <section class="about-section" id="about">
+            <div class="container about-container">
+                <div class="about-content">
+                    <span class="section-label">About HireFlow</span>
+                    <h2>Modernizing How Tech Talent Connects With Opportunity</h2>
+                    <p>HireFlow is built to make recruitment transparent, fast, and respectful of everyone's time. Candidates always know where their application stands with live status tracking.</p>
+                    <p>Employers get direct access to motivated candidates without recruiter spam or lost emails.</p>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-card-icon">🤝</div>
+                    <h3>Quality Matches Fast</h3>
+                    <p>An intuitive interface designed for engineers, designers, and hiring teams who care about excellence.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA BANNER REMOVED -->
+    </main>
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+    <footer id="contact">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="#home" class="logo">
+                    <div class="logo-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- H Left Stem & Crossbar -->
+                            <path d="M5 4.5V19.5" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+                            <path d="M5 12H13" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round"/>
+                            <!-- F Spine (White to Cyan) -->
+                            <path d="M13 19.5V4.5" stroke="url(#hfSpineFoot)" stroke-width="2.6" stroke-linecap="round"/>
+                            <!-- F Top Bar (Cyan) -->
+                            <path d="M13 4.5H19.5" stroke="#38BDF8" stroke-width="2.6" stroke-linecap="round"/>
+                            <!-- Forward Flow Arrow (Cyan) -->
+                            <path d="M13 12H19.5M16.5 9.5L19.5 12L16.5 14.5" stroke="#38BDF8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <!-- Top Energy Spark Dot -->
+                            <circle cx="19.5" cy="4.5" r="1.3" fill="#FFFFFF"/>
+                            <defs>
+                                <linearGradient id="hfSpineFoot" x1="13" y1="19.5" x2="13" y2="4.5" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#FFFFFF"/>
+                                    <stop offset="0.6" stop-color="#FFFFFF"/>
+                                    <stop offset="1" stop-color="#38BDF8"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <span class="logo-name">Hire<span class="brand-accent">Flow</span><span class="brand-dot">.</span></span>
+                </a>
+                <p>Next-generation career discovery and recruitment management ecosystem.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Platform</h4>
+                <a href="#home">Home</a>
+                <a href="#jobs">Find Jobs</a>
+                <a href="#categories">Categories</a>
+                <a href="#features">Why HireFlow</a>
+            </div>
+
+            <div class="footer-column">
+                <h4>Account</h4>
+                <a href="#" id="footerLoginBtn">Sign In</a>
+                <a href="#" id="footerRegisterBtn">Register</a>
+                <a href="/profile.html">Dashboard</a>
+            </div>
+
+            <div class="footer-column">
+                <h4>Contact & Support</h4>
+                <p><a href="mailto:anandmishra02.com@gmail.com">📧 anandmishra02.com@gmail.com</a></p>
+                <p><a href="tel:+919576989908">📞 +91 95769 89908</a></p>
+                <p>📍 Noida, UP, India</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <span>© 2026 HireFlow. Crafted with excellence.</span>
+                <span>Powered by ASP.NET Core & Modern Web Standards</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =====================================================
+         JOB DETAILS / QUICK VIEW MODAL
+    ====================================================== -->
+    <div class="modal" id="jobDetailsModal">
+        <div class="modal-content modal-content-lg">
+            <button type="button" class="modal-close" onclick="closeModal('jobDetailsModal')" aria-label="Close modal">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <span class="job-badge full-time" id="detailsJobType">Full Time</span>
+                    <span class="job-badge" id="detailsLocation">Remote</span>
+                </div>
+                <h2 id="detailsTitle" style="font-size: 26px;">Job Title</h2>
+                <p id="detailsRecruiter" style="font-weight: 600; color: var(--primary-light);">Company Name</p>
+            </div>
+
+            <div style="background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px; margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                <div>
+                    <span style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Compensation</span>
+                    <div id="detailsSalary" style="font-size: 20px; font-weight: 800; color: var(--text-primary);">$120,000 / yr</div>
+                </div>
+                <div>
+                    <span style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Competition</span>
+                    <div id="detailsApplicants" style="font-size: 16px; font-weight: 700; color: #10b981;">0 Candidates Applied</div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 26px;">
+                <h4 style="font-size: 16px; font-weight: 800; margin-bottom: 8px;">Role Overview & Requirements</h4>
+                <div id="detailsDescription" style="font-size: 15px; color: var(--text-secondary); line-height: 1.7; white-space: pre-line;"></div>
+            </div>
+
+            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button type="button" class="btn btn-outline" onclick="closeModal('jobDetailsModal')">Close</button>
+                <button type="button" class="btn btn-primary" id="detailsApplyBtn">Apply for this Position →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         LOGIN MODAL
+    ====================================================== -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button type="button" class="modal-close" id="closeLoginBtn" aria-label="Close modal">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to your HireFlow account</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="you@company.com" autocomplete="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" required>
+                        <button type="button" class="password-toggle" data-target="loginPassword">👁️</button>
+                    </div>
+                </div>
+
+                <div id="loginMessage" class="form-message"></div>
+
+                <button type="submit" class="btn btn-primary form-submit">
+                    Sign In to Account
+                </button>
+            </form>
+
+            <div class="modal-switch">
+                Don't have an account?
+                <button type="button" id="switchToRegisterBtn">Register here</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         REGISTER MODAL
+    ====================================================== -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button type="button" class="modal-close" id="closeRegisterBtn" aria-label="Close modal">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-header">
+                <h2>Create Your Account</h2>
+                <p>Join HireFlow as a Candidate or Recruiter</p>
+            </div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerFullName">Full Name</label>
+                    <input type="text" id="registerFullName" placeholder="e.g. Anand Mishra" maxlength="100" autocomplete="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail">Email Address</label>
+                    <input type="email" id="registerEmail" placeholder="you@domain.com" maxlength="150" autocomplete="email" required>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="registerPassword" placeholder="Min 6 chars" minlength="6" autocomplete="new-password" required>
+                            <button type="button" class="password-toggle" data-target="registerPassword">👁️</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirm</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="registerConfirmPassword" placeholder="Confirm pass" minlength="6" autocomplete="new-password" required>
+                            <button type="button" class="password-toggle" data-target="registerConfirmPassword">👁️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerAccountType">I am a</label>
+                    <select id="registerAccountType" required>
+                        <option value="Candidate">Candidate (Looking for Jobs)</option>
+                        <option value="Recruiter">Recruiter / Employer (Hiring Talent)</option>
+                    </select>
+                </div>
+
+                <div id="registerMessage" class="form-message"></div>
+
+                <button type="submit" class="btn btn-primary form-submit">
+                    Complete Registration
+                </button>
+            </form>
+
+            <div class="modal-switch">
+                Already registered?
+                <button type="button" id="switchToLoginBtn">Log in</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         APPLY JOB MODAL
+    ====================================================== -->
+    <div class="modal" id="applicationModal">
+        <div class="modal-content modal-content-lg">
+            <button type="button" class="modal-close" id="closeApplicationBtn" aria-label="Close modal">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-header" style="margin-bottom: 16px;">
+                <span class="job-badge full-time" style="margin-bottom: 6px; display: inline-block;">Candidate Application</span>
+                <h2>Job Application Form</h2>
+                <p id="applicationJobTitle" style="font-size: 15px; font-weight: 600; color: var(--primary-light);">Applying for: Open Position</p>
+            </div>
+
+            <form id="applicationForm">
+                <input type="hidden" id="applicationJobId">
+
+                <!-- 1. PERSONAL INFORMATION -->
+                <div class="form-section-title">
+                    <span>👤</span> Personal Information
+                </div>
+
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label for="appFirstName">First Name *</label>
+                        <input type="text" id="appFirstName" placeholder="Enter First Name" maxlength="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appMiddleName">Middle Name</label>
+                        <input type="text" id="appMiddleName" placeholder="Enter Middle Name" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="appLastName">Last Name *</label>
+                        <input type="text" id="appLastName" placeholder="Enter Last Name" maxlength="50" required>
+                    </div>
+                </div>
+
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label for="appEmail">Email ID *</label>
+                        <input type="email" id="appEmail" placeholder="Enter Email Id" maxlength="120" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appMobile">Mobile Number *</label>
+                        <input type="tel" id="appMobile" placeholder="Enter Mobile Number" maxlength="20" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appGender">Gender *</label>
+                        <select id="appGender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 2. PROFESSIONAL & CAREER DETAILS -->
+                <div class="form-section-title">
+                    <span>💼</span> Professional Profile & Experience
+                </div>
+
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label for="appProfile">Profile / Domain *</label>
+                        <select id="appProfile" required>
+                            <option value="">Select Your Profile Domain</option>
+                            <option value="Full Stack Developer">💻 Full Stack Developer</option>
+                            <option value="Frontend Developer">⚛️ Frontend Developer</option>
+                            <option value="Backend Developer">⚙️ Backend Developer</option>
+                            <option value="DevOps & Cloud Engineer">☁️ DevOps & Cloud Engineer</option>
+                            <option value="Mobile App Developer">📱 Mobile App Developer (iOS / Android / Flutter)</option>
+                            <option value="AI & Data Scientist">📊 AI & Data Scientist / Machine Learning</option>
+                            <option value="QA & SDET Automation">🧪 QA & Automation Engineer (SDET)</option>
+                            <option value="Cybersecurity Specialist">🔒 Cybersecurity & Network Specialist</option>
+                            <option value="Database Administrator">🗄️ Database Administrator (DBA)</option>
+                            <option value="Product / Project Manager">📋 Product / Project Manager / Scrum Master</option>
+                            <option value="UI/UX Product Designer">🎨 UI/UX Product Designer</option>
+                            <option value="Fresher / Graduate Trainee">🎓 Student / Graduate Fresher</option>
+                            <option value="Other IT Specialist">🚀 Other IT Specialist</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="appCurrentJob">Current Job / Designation *</label>
+                        <input type="text" id="appCurrentJob" placeholder="Your Current Job" maxlength="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appCurrentLocation">Current Location *</label>
+                        <input type="text" id="appCurrentLocation" placeholder="Enter Current Location" maxlength="100" required>
+                    </div>
+                </div>
+
+                <!-- 3. ACADEMIC QUALIFICATIONS & MARKS -->
+                <div class="form-section-title">
+                    <span>🎓</span> Educational Qualifications & Academic Records
+                </div>
+
+                <div class="form-group">
+                    <label for="appHigherQualification">Higher Qualification *</label>
+                    <select id="appHigherQualification" required>
+                        <option value="">Select Your Highest Qualification</option>
+                        <option value="B.Tech / B.E. (Computer Science / IT / Related)">B.Tech / B.E. (Computer Science / IT / Related)</option>
+                        <option value="MCA (Master of Computer Applications)">MCA (Master of Computer Applications)</option>
+                        <option value="BCA (Bachelor of Computer Applications)">BCA (Bachelor of Computer Applications)</option>
+                        <option value="M.Tech / M.E.">M.Tech / M.E.</option>
+                        <option value="B.Sc. (Computer Science / IT / Math)">B.Sc. (Computer Science / IT / Math)</option>
+                        <option value="M.Sc. (Computer Science / IT / Data)">M.Sc. (Computer Science / IT / Data)</option>
+                        <option value="Diploma in Engineering / Poly">Diploma in Engineering / IT</option>
+                        <option value="Other Graduate / Postgraduate Degree">Other Graduate / Postgraduate Degree</option>
+                    </select>
+                </div>
+
+                <div class="form-row-4">
+                    <div class="form-group">
+                        <label for="appMarks10th">10th Marks (%) *</label>
+                        <input type="number" id="appMarks10th" placeholder="Enter Marks" min="1" max="100" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appMarks12th">12th Marks (%) *</label>
+                        <input type="number" id="appMarks12th" placeholder="Enter Marks" min="1" max="100" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appMarksUG">UG Marks (%) *</label>
+                        <input type="number" id="appMarksUG" placeholder="Enter Marks" min="1" max="100" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appMarksPG">PG Marks (%)</label>
+                        <input type="number" id="appMarksPG" placeholder="Enter Marks" min="1" max="100" step="0.01">
+                    </div>
+                </div>
+
+                <!-- 4. RESUME & COVER LETTER -->
+                <div class="form-section-title">
+                    <span>📄</span> Resume Document & Cover Letter
+                </div>
+
+                <div class="form-group">
+                    <label for="appResume">Resume (PDF or DOCX only) *</label>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="text" id="appResume" placeholder="Select Resume" style="flex: 1; min-width: 250px;" required>
+                        <label class="btn btn-outline btn-sm" style="margin: 0; cursor: pointer; white-space: nowrap;">
+                            📁 Select PDF / DOCX
+                            <input type="file" id="appResumeFile" accept=".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword" style="display: none;" onchange="handleResumeFileSelect(event)">
+                        </label>
+                    </div>
+                    <small id="appResumeFileStatus" style="display: block; margin-top: 5px; font-size: 12px; color: var(--text-light);"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="coverLetter">Cover Letter / Pitch to Hiring Manager *</label>
+                    <textarea id="coverLetter" rows="4" placeholder="Enter Cover Letter" required></textarea>
+                </div>
+
+                <div id="applicationMessage" class="form-message"></div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('applicationModal')">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="submitApplicationBtn">
+                        Submit Application 🚀
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         POST A JOB MODAL (FOR RECRUITERS)
+    ====================================================== -->
+    <div class="modal" id="postJobModal">
+        <div class="modal-content modal-content-lg">
+            <button type="button" class="modal-close" id="closePostJobBtn" aria-label="Close modal">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-header">
+                <h2>Post a New Job Opportunity</h2>
+                <p>Reach thousands of top candidates on HireFlow</p>
+            </div>
+
+            <form id="postJobForm">
+                <div class="form-group">
+                    <label for="postJobTitle">Job Title</label>
+                    <input type="text" id="postJobTitle" placeholder="e.g. Senior Full-Stack Engineer" maxlength="150" required>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="postJobType">Job Type</label>
+                        <select id="postJobType" required>
+                            <option value="Full Time">Full Time</option>
+                            <option value="Remote">Remote</option>
+                            <option value="Part Time">Part Time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="postJobSalary">Salary / Compensation</label>
+                        <input type="text" id="postJobSalary" placeholder="e.g. $90,000 - $120,000 / year" maxlength="100" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="postJobLocation">Location</label>
+                    <input type="text" id="postJobLocation" placeholder="e.g. Remote / New York, NY / Noida, India" maxlength="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="postJobDescription">Job Description & Requirements</label>
+                    <textarea id="postJobDescription" rows="5" placeholder="Detail the key responsibilities, qualifications, tech stack, and benefits..." required></textarea>
+                </div>
+
+                <div id="postJobMessage" class="form-message"></div>
+
+                <button type="submit" class="btn btn-primary form-submit" id="submitPostJobBtn">
+                    Publish Job Listing ✨
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/JS/app.js?v=20260924_db_v5"></script>
+</body>
+</html>
